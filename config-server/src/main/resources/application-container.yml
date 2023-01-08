@@ -1,0 +1,25 @@
+server:
+  port: 8003
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: config-server
+  datasource:
+    url: jdbc:postgresql://postgres:5432/kezbek_config
+    username: config
+    password: config123
+    driver-class-name: org.postgresql.Driver
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: SELECT key, value from t_config_properties where (application=? or application='all') and profile=? and label=?
+
+eureka:
+  client:
+    service-url: 
+      defaultZone: http://discovery-server:8001/eureka
+  instance:
+    prefer-ip-address: true
+    

@@ -1,0 +1,42 @@
+server:
+  port: 7002
+spring:
+  application:
+    name: consumer-service
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kezbek_transaction
+    username: user_transaction
+    password: transaction123
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      uri: http://localhost:8003
+  mail:
+    username: ajiperdanaputra90@gmail.com
+    password: rvqolybmtuhdgsyy
+    host: smtp.gmail.com
+    port: 465
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl: 
+            enable: true
+    
+eureka:
+  client:
+    service-url: 
+      defaultZone: http://localhost:8001/eureka
+  instance:
+    prefer-ip-address: true
+    

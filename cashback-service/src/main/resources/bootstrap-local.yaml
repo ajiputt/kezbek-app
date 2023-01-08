@@ -1,0 +1,38 @@
+server:
+  port: 7001
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: cashback-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kezbek_transaction
+    username: user_transaction
+    password: transaction123
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      uri: 
+      - http://localhost:8003
+    
+eureka:
+  client:
+    service-url: 
+      defaultZone: http://localhost:8001/eureka
+  instance:
+    prefer-ip-address: true
+    
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:8002/oauth/token
+      user-authorization-uri: http://localhost:8002/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:8002/user
+    authorization:
+      check-token-access: http://localhost:8002/oauth/check_token

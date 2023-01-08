@@ -1,0 +1,66 @@
+version: "3.9"
+services:
+ rabbitmq:
+    image: rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - rabbitmq_go_net
+ postgres:
+   image: postgres
+   restart: always
+   environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+   ports:
+     - '5432:5432'
+   volumes: 
+     - postgres:/data/postgres
+     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+ discovery-server:
+   image: "discovery-server"
+   ports:
+     - "8001:8001"
+ config-server:
+   image: "config-server"
+   ports:
+     - "8003:8003"
+   environment:
+     - "SPRING_PROFILES_ACTIVE=container,jdbc"
+   links:
+     - postgres
+     - discovery-server
+   healthcheck:
+     test: ["CMD", "curl", "-f", "http://localhost:8003/actuator/health"]
+     interval: 30s
+     timeout: 10s
+     retries: 5
+ consumer-service:
+   image: "consumer-service"
+   ports:
+     - "7002:7002"
+   environment:
+     - "SPRING_PROFILES_ACTIVE=container"
+   depends_on:
+     config-server:
+       condition: service_healthy
+ gateway-server:
+   image: "gateway-server"
+   ports:
+     - "8000:8000"
+   environment:
+     - "SPRING_PROFILES_ACTIVE=container"
+
+networks:
+  postgres:
+    driver: bridge
+  rabbitmq_go_net:
+    driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:

@@ -1,0 +1,14 @@
+Welcome to my project
+
+First of all you need to pull all of services in this project.
+Please make sure you already intsall MAVEN and Docker on your device.
+
+Here are the step to run this project :
+1. run mvn clean package on common
+2. run mvn clean package on other service (order doesn't matter)
+3. register the image with docker build -t <service-name>:latest . on all service except common
+4. run docker-compose.yml
+
+To see the service documentation you can check http://localhost:8000/swagger-ui/index.html
+
+Thank you

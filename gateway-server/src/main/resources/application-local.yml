@@ -1,0 +1,49 @@
+server:
+  port: 8000
+ 
+eureka:
+  client:
+    register-with-eureka: false
+    service-url: 
+      defaultZone: http://localhost:8001/eureka
+  instance:
+    prefer-ip-address: true 
+
+spring:
+  application:
+    name: gateway-server
+
+zuul:
+  routes:
+    cashback :
+      path : /api/**
+      serviceId : cashback-service
+      sensitiveHeaders:
+    authorization:
+      path: /authorization/**
+      service-id: authorization-server
+      sensitive-headers:
+ 
+springdoc:
+  enable-native-support: true
+  api-docs:
+    groups:
+      enabled: true
+    enabled: true
+  group-configs:
+    - group: cashback-service
+      paths-to-match:
+        - /api/**
+      display-name: Cashback Service
+    - group: authorization-server
+      paths-to-match:
+        - /authorization/**
+      display-name: Authorization Server
+  swagger-ui:
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    urls:
+      - url: /api/v3/api-docs
+        name: Cashback Service
+      - url: /authorization/v3/api-docs
+        name: Authorization Server
