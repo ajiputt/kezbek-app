@@ -39,6 +39,24 @@ services:
      interval: 30s
      timeout: 10s
      retries: 5
+ cashback-service:
+   image: "cashback-service"
+   ports:
+     - "7001:7001"
+   environment:
+     - "SPRING_PROFILES_ACTIVE=container"
+   depends_on:
+     config-server:
+       condition: service_healthy
+ authorization-server:
+   image: "authorization-server"
+   ports:
+     - "8002:8002"
+   environment:
+     - "SPRING_PROFILES_ACTIVE=container"
+   depends_on:
+     config-server:
+       condition: service_healthy
  consumer-service:
    image: "consumer-service"
    ports:
