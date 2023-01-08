@@ -20,7 +20,7 @@ spring:
       uri: http://localhost:8003
   mail:
     username: ajiperdanaputra90@gmail.com
-    password: rvqolybmtuhdgsyy
+    password: 
     host: smtp.gmail.com
     port: 465
     protocol: smtp
